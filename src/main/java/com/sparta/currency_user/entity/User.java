@@ -24,6 +24,6 @@ public class User {
 
     public User() {}
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserCurrency> userCurrencies = new ArrayList<>();
 }
