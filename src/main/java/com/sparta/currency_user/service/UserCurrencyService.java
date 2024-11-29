@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -23,31 +26,6 @@ public class UserCurrencyService {
     private final UserService userService;
     private final CurrencyService currencyService;
 
-
-
-//    public UserCurrencyResponseDto calcCurrency(UserResponseDto userById, CurrencyResponseDto currencyById, Long amountKrw) {
-//
-//        BigDecimal amountedKrw = new BigDecimal(amountKrw);
-//        BigDecimal amountAfter = amountedKrw.divide(currencyById.getExchangeRate(), 3, RoundingMode.HALF_UP);
-//
-//        UserCurrency savedUserCurrency = userCurrencyRepository.save(new UserCurrency(
-//                userById.getId(),
-//                currencyById.getId(),
-//                amountKrw,
-//                amountAfter)
-//        );
-//        log.info(" savedUserCurrency.getId() : {}", savedUserCurrency.getId());
-////        log.info("savedUserCurrency.getUser() : {}",savedUserCurrency.getUser().getName());
-////        return new UserCurrencyResponseDto(
-////                savedUserCurrency.getId(),
-////                savedUserCurrency.getUser().getName(),
-////                savedUserCurrency.getCurrency().getCurrencyName(),
-////                savedUserCurrency.getAmountInKrw(),
-////                savedUserCurrency.getAmountAfterExchange()
-////        );
-//        return new UserCurrencyResponseDto(savedUserCurrency.getId(), userById,currencyById,amountKrw,amountAfter);
-//    }
-
     public UserCurrencyResponseDto createCalcCurrency(Long userId, Long currencyId, Long amountKrw) {
 
         User userById = userService.findUserById(userId);
@@ -56,14 +34,32 @@ public class UserCurrencyService {
         BigDecimal amountedKrw = new BigDecimal(amountKrw);
         BigDecimal amountAfter = amountedKrw.divide(currencyById.getExchangeRate(), 3, RoundingMode.HALF_UP);
 
-        UserCurrency savedUserCurrency = userCurrencyRepository.save(new UserCurrency(userById, currencyById, amountKrw, amountAfter));
-
+        LocalDateTime createAt = LocalDateTime.now();
+        UserCurrency savedUserCurrency =
+                userCurrencyRepository.save(new UserCurrency(userById, currencyById, amountKrw, amountAfter, createAt));
 
         return new UserCurrencyResponseDto(
-                savedUserCurrency.getId(),
                 savedUserCurrency.getUser(),
                 savedUserCurrency.getCurrency(),
                 savedUserCurrency.getAmountInKrw(),
-                savedUserCurrency.getAmountAfterExchange());
+                savedUserCurrency.getAmountAfterExchange(),
+                savedUserCurrency.getCreateAt()
+        );
+    }
+
+    public List<UserCurrencyResponseDto> byUserIdRecord(Long id) {
+        User userById = userService.findUserById(id);
+        List<UserCurrency> userCurrencies = userById.getUserCurrencies();
+        List<UserCurrencyResponseDto> responseDtos = new ArrayList<>();
+        for (UserCurrency item : userCurrencies) {
+            responseDtos.add(new UserCurrencyResponseDto(
+                    item.getUser(),
+                    item.getCurrency(),
+                    item.getAmountInKrw(),
+                    item.getAmountAfterExchange(),
+                    item.getCreateAt()
+            ));
+        }
+        return responseDtos;
     }
 }

@@ -25,7 +25,7 @@ public class UserCurrency {
 
     private Long amountInKrw;
     private BigDecimal amountAfterExchange;
-//    private String status;
+    private String status;
     private LocalDateTime createAt;
 
     public UserCurrency() {
@@ -37,11 +37,14 @@ public class UserCurrency {
             User user,
             Currency currency,
             Long amountInKrw,
-            BigDecimal amountAfterExchange){
+            BigDecimal amountAfterExchange,
+            LocalDateTime createAt
+    ){
         this.user = user;
         this.currency = currency;
         this.amountInKrw = amountInKrw;
         this.amountAfterExchange = amountAfterExchange;
+        this.createAt = createAt;
     }
 
 }
