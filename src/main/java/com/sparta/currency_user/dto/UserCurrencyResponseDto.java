@@ -20,6 +20,7 @@ public class UserCurrencyResponseDto {
     Long amountKrw;
     BigDecimal amountAfter;
     String symbol;
+    String status;
     LocalDateTime createAt;
 
     public UserCurrencyResponseDto() {}
@@ -29,7 +30,8 @@ public class UserCurrencyResponseDto {
             Currency currency,
             Long amountKrw,
             BigDecimal amountAfter,
-            LocalDateTime createAt
+            LocalDateTime createAt,
+            String status
     ) {
 //        this.userId = user.getId();
 //        this.currencyId = currency.getId();
@@ -39,6 +41,7 @@ public class UserCurrencyResponseDto {
         this.amountAfter = amountAfter;
         this.symbol = currency.getSymbol();
         this.createAt = createAt;
+        this.status = status;
     }
 
 }

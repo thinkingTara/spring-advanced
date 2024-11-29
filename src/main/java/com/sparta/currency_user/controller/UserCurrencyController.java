@@ -33,9 +33,16 @@ public class UserCurrencyController {
         return new ResponseEntity<>(responseDto,HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<UserCurrencyResponseDto>> byUserIdRecord(@PathVariable Long id){
-        List<UserCurrencyResponseDto> responseDtos = userCurrencyService.byUserIdRecord(id);
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<UserCurrencyResponseDto>> byUserIdRecord(@PathVariable Long userId){
+        List<UserCurrencyResponseDto> responseDtos = userCurrencyService.byUserIdRecord(userId);
         return new ResponseEntity<>(responseDtos,HttpStatus.OK);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> changeStatus(@PathVariable Long id){
+        String responseDto = userCurrencyService.changeStatus(id);
+        return new ResponseEntity<>("status 는 "+ responseDto+" 입니다.",HttpStatus.OK);
+    }
+
 }

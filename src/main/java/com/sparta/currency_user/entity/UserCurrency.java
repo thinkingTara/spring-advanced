@@ -2,6 +2,7 @@ package com.sparta.currency_user.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -28,8 +29,7 @@ public class UserCurrency {
     private String status;
     private LocalDateTime createAt;
 
-    public UserCurrency() {
-    }
+    public UserCurrency() {}
 
     public UserCurrency(
 //            Long user_id,
@@ -44,7 +44,13 @@ public class UserCurrency {
         this.currency = currency;
         this.amountInKrw = amountInKrw;
         this.amountAfterExchange = amountAfterExchange;
+        this.status = "normal";
         this.createAt = createAt;
+    }
+
+
+    public void update(String status){
+        this.status = status;
     }
 
 }

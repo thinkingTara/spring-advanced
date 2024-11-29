@@ -7,6 +7,7 @@ import com.sparta.currency_user.entity.Currency;
 import com.sparta.currency_user.entity.User;
 import com.sparta.currency_user.entity.UserCurrency;
 import com.sparta.currency_user.repository.UserCurrencyRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -43,7 +45,8 @@ public class UserCurrencyService {
                 savedUserCurrency.getCurrency(),
                 savedUserCurrency.getAmountInKrw(),
                 savedUserCurrency.getAmountAfterExchange(),
-                savedUserCurrency.getCreateAt()
+                savedUserCurrency.getCreateAt(),
+                savedUserCurrency.getStatus()
         );
     }
 
@@ -57,9 +60,17 @@ public class UserCurrencyService {
                     item.getCurrency(),
                     item.getAmountInKrw(),
                     item.getAmountAfterExchange(),
-                    item.getCreateAt()
+                    item.getCreateAt(),
+                    item.getStatus()
             ));
         }
         return responseDtos;
+    }
+
+    @Transactional
+    public String changeStatus(Long id) {
+        userCurrencyRepository.findById(id).get().update("cancel");
+
+        return userCurrencyRepository.findById(id).get().getStatus();
     }
 }
