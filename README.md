@@ -88,3 +88,42 @@ responseBody : {
     "amountAfter": 1111.111,
     "symbol": "y"
 }
+
+--responseBody id 삭제 후 --
+
+responseBody: {
+    "userName": "jy22",
+    "currencyName": "yen",
+    "amountKrw": 10000,
+    "amountAfter": 1111.111,
+    "symbol": "y"
+}
+
+#### 특정사용자의 환전 내역 GET : localhost:8080/user-currencies/{id}
+responseBody : [
+    {
+        "userName": "jy",
+        "currencyName": "yen",
+        "amountKrw": 10000,
+        "amountAfter": 1111.11,
+        "symbol": "y",
+        "createAt": "2024-11-29T11:56:48.111738"
+    },
+    {
+        "userName": "jy",
+        "currencyName": "dollar",
+        "amountKrw": 10000,
+        "amountAfter": 714.29,
+        "symbol": "$",
+        "createAt": "2024-11-29T11:56:52.178023"
+    },
+    {
+        "userName": "jy",
+        "currencyName": "dollar",
+        "amountKrw": 110000,
+        "amountAfter": 7857.14,
+        "symbol": "$",
+        "createAt": "2024-11-29T11:57:00.524681"
+    }
+]
+
