@@ -25,6 +25,7 @@ public class UserCurrencyController {
     private final UserService userService;
     private final CurrencyService currencyService;
 
+    @ExceptionHandler(IllegalAccessError.class)
     @PostMapping
     public ResponseEntity<UserCurrencyResponseDto> calcCurrency(@RequestBody UserCurrencyRequestDto requestDto){
         UserResponseDto userById = userService.findById(requestDto.getUserId());

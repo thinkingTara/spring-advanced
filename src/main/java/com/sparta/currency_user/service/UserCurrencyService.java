@@ -30,11 +30,22 @@ public class UserCurrencyService {
 
     public UserCurrencyResponseDto createCalcCurrency(Long userId, Long currencyId, Long amountKrw) {
 
+        if (userService.findUserById(userId) == null || currencyService.findCurrencyById(currencyId) == null) {
+            throw new NullPointerException("userCurrencyService > findById 가 null");
+        }
         User userById = userService.findUserById(userId);
         Currency currencyById = currencyService.findCurrencyById(currencyId);
 
+
         BigDecimal amountedKrw = new BigDecimal(amountKrw);
-        BigDecimal amountAfter = amountedKrw.divide(currencyById.getExchangeRate(), 3, RoundingMode.HALF_UP);
+        BigDecimal amountAfter;
+        try {
+            amountAfter = amountedKrw.divide(currencyById.getExchangeRate(), 3, RoundingMode.HALF_UP);
+
+        } catch (IllegalAccessError e) {
+            throw new IllegalAccessError("계산 오류");
+        }
+
 
         LocalDateTime createAt = LocalDateTime.now();
         UserCurrency savedUserCurrency =
